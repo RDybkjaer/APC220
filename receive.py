@@ -1,15 +1,9 @@
 import serial
 
 
-vendor_id = 0x10C4
-product_id = 0xEA60
-
-test = False
-
 
 def main():
-    print("Bonjour world")
-    # Finder en device - baseret på vendorid og product id - Returnerer en usb.core.Device class
+    #Hej og velkommen - koden kører pt, så det er jo nice nok
 
     #Vi starter initialiseringen af en Seriel forbindelse - Her benyttes pySerial biblioteket
     ser = serial.Serial()
