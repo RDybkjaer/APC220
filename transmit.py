@@ -11,28 +11,6 @@ test = False
 
 def main():
     print("Bonjour world")
-    # Finder en device - baseret på vendorid og product id - Returnerer en usb.core.Device class
-    dev = usb.core.find(idVendor=vendor_id, idProduct=product_id)
-    print(dev)
-    print(type(dev))
-    print("*****************************************************************")
-
-    # Fortæller om den aktive configuration - Printer samme data som dev
-    cfg = dev.get_active_configuration()
-    print(cfg)
-    # Man kan også printe enkelte parametre
-    print(dev.bLength)
-
-    # Mere der bare er test shit ━━(￣ー￣*|||━━
-    if test == True:
-        msg = "test"
-        ret = dev.read(0x81, len(msg), 100)
-        sret = "".join([chr(x) for x in ret])
-        assert sret == msg
-
-    if dev is None:
-        raise ValueError("Device not found")
-
     #Vi starter initialiseringen af en Seriel forbindelse - Her benyttes pySerial biblioteket
     ser = serial.Serial()
     # Til serial i linux benyttes portene /dev/ttyUSB0
@@ -42,6 +20,7 @@ def main():
     ser.parity = "N"
     #Her sættes en timeout for, da jeg havde problemer med at den læste for evigt
     ser.timeout = 5
+    ser.baudrate = 9600
     #Porten åbnes officielt
     ser.open()
     print("Serial data: " + str(ser))
@@ -56,16 +35,16 @@ def main():
     print("Is readable: " + str(sra))
 
     #Her sendes Hello World 5 gange
-    msg = "Hello world"
-    for i in range(1,6):
-        print("Sent: "+str(i))
-        j = ser.writelines(bytes(msg, 'utf-8'))
+    print("Sent begin")
+    msg = "Bonjour monsiuer.. wie gehts??\n"
+    print(type(msg))
+    msg = msg.encode('utf-8')
+    print(type(msg))
+    print(msg)
+    print("Sent: " +str(msg))
+    j = ser.write(msg)
     print("Has written: " + str(j))
 
-    #Læser 5 bytes
-    r = ser.read(5)
-    print("Read: " + str(r))
-    #Henter serial settings og printer
     sett = ser.get_settings()
     print(sett)
 
