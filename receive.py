@@ -1,5 +1,3 @@
-import usb.core
-import usb.util
 import serial
 
 
@@ -12,26 +10,6 @@ test = False
 def main():
     print("Bonjour world")
     # Finder en device - baseret på vendorid og product id - Returnerer en usb.core.Device class
-    dev = usb.core.find(idVendor=vendor_id, idProduct=product_id)
-    print(dev)
-    print(type(dev))
-    print("*****************************************************************")
-
-    # Fortæller om den aktive configuration - Printer samme data som dev
-    cfg = dev.get_active_configuration()
-    print(cfg)
-    # Man kan også printe enkelte parametre
-    print(dev.bLength)
-
-    # Mere der bare er test shit ━━(￣ー￣*|||━━
-    if test == True:
-        msg = "test"
-        ret = dev.read(0x81, len(msg), 100)
-        sret = "".join([chr(x) for x in ret])
-        assert sret == msg
-
-    if dev is None:
-        raise ValueError("Device not found")
 
     #Vi starter initialiseringen af en Seriel forbindelse - Her benyttes pySerial biblioteket
     ser = serial.Serial()
@@ -41,14 +19,16 @@ def main():
     #Godt nok er parity som standard sat til N, men for god ordens skyld
     ser.parity = "N"
     #Her sættes en timeout for, da jeg havde problemer med at den læste for evigt
-    ser.timeout = 200
+    ser.timeout = 5
+    ser.baudrate = 9600
+    ser.rtscts = False
     #Porten åbnes officielt
     ser.open()
     print("Serial data: " + str(ser))
     #Test om porten er åben
     sio = ser.is_open
     print("Is open: " + str(sio))
-    #Test om porten kan skrives til
+    #Test om porten kan skrives t
     swa = ser.writable()
     print("Is writeable: " + str(swa))
     #Test om porten kan læses fra
@@ -56,15 +36,20 @@ def main():
     print("Is readable: " + str(sra))
 
     #Her sendes Hello World 5 gange
-
+    print("Ready 2 read")
     #Læser 5 bytes
-    r = ser.read(5)
-    print("Read: " + str(r))
+    r = ser.read_until()
+    print(type(r))
+    print(r)
+    b = r.decode('utf-8')
+    print(type(b))
+    print("Read: " + b)
     #Henter serial settings og printer
     sett = ser.get_settings()
     print(sett)
 
     print("The end!")
+    ser.close()
 
 
 if __name__ == "__main__":
