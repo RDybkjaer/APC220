@@ -1,5 +1,7 @@
 import serial
 
+# @TODO: Skriv kommentarer :P
+
 
 class ADC220(serial.Serial):
     endString: str
