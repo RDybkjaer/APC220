@@ -1,6 +1,7 @@
 import usb.core
 import usb.util
 import serial
+import ADC220 as adc
 
 
 vendor_id = 0x10C4
@@ -12,6 +13,10 @@ test = False
 def main():
     print("Bonjour world")
     #Vi starter initialiseringen af en Seriel forbindelse - Her benyttes pySerial biblioteket
+    ser = adc.ADC220()
+
+
+    """
     ser = serial.Serial()
     # Til serial i linux benyttes portene /dev/ttyUSB0
     # "/dev/ttyUSB0"
@@ -26,6 +31,7 @@ def main():
     ser.writelines(bytes(msg, 'utf-8'))
     #Henter serial settings og printer
     #     print("The end!")
+    """
 
 
 if __name__ == "__main__":

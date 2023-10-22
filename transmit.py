@@ -1,54 +1,31 @@
-import usb.core
-import usb.util
+
 import serial
-
-
-vendor_id = 0x10C4
-product_id = 0xEA60
-
-test = False
+import ADC220 as adc
 
 
 def main():
-    print("Bonjour world")
-    #Vi starter initialiseringen af en Seriel forbindelse - Her benyttes pySerial biblioteket
-    ser = serial.Serial()
-    # Til serial i linux benyttes portene /dev/ttyUSB0
-    # "/dev/ttyUSB0"
-    ser.port = "/dev/ttyUSB0"
-    #Godt nok er parity som standard sat til N, men for god ordens skyld
-    ser.parity = "N"
-    #Her sættes en timeout for, da jeg havde problemer med at den læste for evigt
-    ser.timeout = 5
-    ser.baudrate = 9600
-    #Porten åbnes officielt
-    ser.open()
-    print("Serial data: " + str(ser))
-    #Test om porten er åben
-    sio = ser.is_open
-    print("Is open: " + str(sio))
-    #Test om porten kan skrives til
-    swa = ser.writable()
-    print("Is writeable: " + str(swa))
-    #Test om porten kan læses fra
-    sra = ser.readable()
-    print("Is readable: " + str(sra))
-
+    ser = adc.ADC220()
     #Her sendes Hello World 5 gange
     print("Sent begin")
-    msg = "Bonjour monsiuer.. wie gehts??\n"
-    print(type(msg))
-    msg = msg.encode('utf-8')
-    print(type(msg))
-    print(msg)
-    print("Sent: " +str(msg))
-    j = ser.write(msg)
-    print("Has written: " + str(j))
+    msg = "ONE?\n"
+
+
+    r = ser.read_until()
+    print(type(r))
+    print(r)
+    b = r.decode('utf-8').strip()
+    print(type(b))
+    print(len(b))
+    print(r)
+
+
 
     sett = ser.get_settings()
     print(sett)
 
     print("The end!")
+
+    ser.close()
 
 
 if __name__ == "__main__":
