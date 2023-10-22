@@ -1,12 +1,12 @@
-import APC220
+import APC220 as apc220
 
 
 def main():
-    adc = ADC220.ADC220()
-    adc.receive()
+    radio = apc220.ADC220()
+    radio.receive()
 
     print("The end!")
-    adc.close()
+    radio.close()
 
 
 if __name__ == "__main__":
