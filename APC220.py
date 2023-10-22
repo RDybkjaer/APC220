@@ -10,7 +10,9 @@ class ADC220(serial.Serial):
     defaulttimeout: int
     callsign: str
 
-    def __init__(self, delim: str = "#!", defaulttimeout: int = 10, callsign: str = "ABCDEF"):
+    def __init__(
+        self, delim: str = "#!", defaulttimeout: int = 10, callsign: str = "ABCDEF"
+    ):
         # Opsætter delimimiter, som er det/de tegn der skal læses til, før en læsning stoppes
         self.delim = delim
         self.callsign = callsign
@@ -97,8 +99,8 @@ class ADC220(serial.Serial):
         print(time_over)
         return time_over
 
-
-
+    # treceive og ttransmit er test metoder, som ikke er i brug
+    # Det er for at teste floats til bytes :D
     def treceive(self, timeout=-1) -> bytes:
         # Sætter en costum timeout
         if -1 == timeout:
@@ -115,17 +117,17 @@ class ADC220(serial.Serial):
         read = read.removesuffix("#!")
         print("\tRead: " + read)
         return read
-    
+
     def ttransmit(self, msg):
         # Sammanesætter msg med delimiterent
         testahest = 0.55
         print("Type of testahest: " + str(type(testahest)))
-        test = bytes.
+        # test = bytes.
         print("Type of test: " + test)
         msg = self.delim
         ##Omskriver det til unicode
         msg = msg.encode("utf-8")
-        msg = test +msg
+        msg = test + msg
         j = self.write(msg)
         if len(msg) == j:
             print("\tMessage sent: " + str(msg))
