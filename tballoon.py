@@ -11,6 +11,7 @@ def main():
     # Henter et input fra terminalen
     while 1:
         msg = None
+        input = None
         input = radio.terminalInput()
         # Random matches for testing purposes
         match input:
