@@ -4,12 +4,12 @@ import serial
 
 
 class ADC220(serial.Serial):
-    endString: str
+    delim: str
     timeout = 10
 
-    def __init__(self, endString: str = "#!"):
-        # Opsætter endString, som er det/de tegn der skal læses til, før en læsning stoppes
-        self.endString = endString
+    def __init__(self, delim: str = "#!"):
+        # Opsætter delimimiter, som er det/de tegn der skal læses til, før en læsning stoppes
+        self.delim = delim
 
         # Kalder superklassens (serial.Serial) init metode
         super().__init__()
@@ -44,18 +44,24 @@ class ADC220(serial.Serial):
         print("Settings: " + str(conf))
 
     def send(self, msg):
-        msg = msg + self.endString
+        # Sammanesætter msg med delimiteren
+        msg = msg + self.delim
+        ##Omskriver det til unicode
         msg = msg.encode("utf-8")
+        print("Message: " + str(msg))
         j = self.write(msg)
-        print("Has written: " + str(j))
+        if len(msg) == j:
+            print("Message sent")
+        else:
+            print("Message not sent")
 
     def receive(self, to=timeout) -> bytes:
-        # Her sendes Hello World 5 gange
-        endChar = bytes(self.endString, "utf-8")
+        # Enkoder endString til byte
+        # endChar = bytes(self.delim, "utf-8")
         print("Ready 2 read")
-        print("Endchar: " + str(endChar))
+        # print("Endchar: " + str(endChar))
         # Læser indtil endChar er fundet
-        r = self.read_until(expected=endChar)
+        r = self.read_until()  # expected=endChar)
         print(type(r))
         print(r)
         b = r.decode("utf-8")
