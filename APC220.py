@@ -28,6 +28,7 @@ class ADC220(serial.Serial):
         print("Port is open")
 
     def opendata(self):
+        # @BREIF: Åbner porten
         print("Serial data: " + str(self))
         # Test om porten er åben
         sio = self.is_open
@@ -38,16 +39,13 @@ class ADC220(serial.Serial):
         # Test om porten kan læses fra
         sra = self.readable()
         print("Is readable: " + str(sra))
+        # Udskriver et print af setting
         conf = self.get_settings()
         print("Settings: " + str(conf))
 
     def send(self, msg):
-        print(type(msg))
         msg = msg + self.endString
         msg = msg.encode("utf-8")
-        print(type(msg))
-        print(msg)
-        print("Sent: " + str(msg))
         j = self.write(msg)
         print("Has written: " + str(j))
 
