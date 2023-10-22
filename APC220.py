@@ -71,7 +71,9 @@ class ADC220(serial.Serial):
         # Dekoder det til unicode
         read = b.decode("utf-8")
         # fjerner delimiteren fra strengen
+        print(read)
         read.replace("#!", "")
+        print(read)
         print("\tRead: " + read)
         return read
 
