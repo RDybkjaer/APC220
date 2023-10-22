@@ -8,17 +8,26 @@ class ADC220(serial.Serial):
     timeout = 10
 
     def __init__(self, endString: str = "#!"):
-        super().__init__()
+        # Opsætter endString, som er det/de tegn der skal læses til, før en læsning stoppes
         self.endString = endString
+
+        # Kalder superklassens (serial.Serial) init metode
+        super().__init__()
+
         # Til serial i linux benyttes portene /dev/ttyUSB0
         self.port = "/dev/ttyUSB0"
         # Godt nok er parity som standard sat til N, men for god ordens skyld
         self.parity = "N"
         # Her sættes en timeout for, da jeg havde problemer med at den læste for evigt
         self.baudrate = 9600
+        # Disabler CTS/RTS flow control, da det ikke er nødvendigt
         self.rtscts = False
+
         # Porten åbnes officielt
         self.open()
+        print("Port is open")
+
+    def opendata(self):
         print("Serial data: " + str(self))
         # Test om porten er åben
         sio = self.is_open
@@ -29,6 +38,8 @@ class ADC220(serial.Serial):
         # Test om porten kan læses fra
         sra = self.readable()
         print("Is readable: " + str(sra))
+        conf = self.get_settings()
+        print("Settings: " + str(conf))
 
     def send(self, msg):
         print(type(msg))
