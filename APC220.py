@@ -8,10 +8,12 @@ from inputimeout import inputimeout
 class ADC220(serial.Serial):
     delim: str
     defaulttimeout: int
+    callsign: str
 
-    def __init__(self, delim: str = "#!", defaulttimeout: int = 10):
+    def __init__(self, delim: str = "#!", defaulttimeout: int = 10, callsign: str = "ABCDEF"):
         # Opsætter delimimiter, som er det/de tegn der skal læses til, før en læsning stoppes
         self.delim = delim
+        self.callsign = callsign
 
         # Kalder superklassens (serial.Serial) init metode
         super().__init__()
@@ -94,3 +96,38 @@ class ADC220(serial.Serial):
         # Print the statement on timeoutprint(time_over)
         print(time_over)
         return time_over
+
+
+
+    def treceive(self, timeout=-1) -> bytes:
+        # Sætter en costum timeout
+        if -1 == timeout:
+            self.timeout = self.defaulttimeout
+        else:
+            self.timeout = timeout
+        # Enkoder endString til byte
+        endChar = bytes(self.delim, "utf-8")
+        # Læser indtil endChar er fundet
+        b = self.read_until(expected=endChar)
+        # Dekoder det til unicode
+        # fjerner delimiteren fra strengen
+        print(b)
+        read = read.removesuffix("#!")
+        print("\tRead: " + read)
+        return read
+    
+    def ttransmit(self, msg):
+        # Sammanesætter msg med delimiterent
+        testahest = 0.55
+        print("Type of testahest: " + str(type(testahest)))
+        test = bytes(testahest)
+        print("Type of test: " + test)
+        msg = self.delim
+        ##Omskriver det til unicode
+        msg = msg.encode("utf-8")
+        msg = test +msg
+        j = self.write(msg)
+        if len(msg) == j:
+            print("\tMessage sent: " + str(msg))
+        else:
+            print("\tMessage not sent")
