@@ -2,11 +2,11 @@ import serial
 
 
 class ADC220(serial.Serial):
-    endchar: bytes
+    endString: str
 
-    def __init__(self, endchar: bytes = b"!#"):
+    def __init__(self, endString: str = "!#"):
         super().__init__()
-        self.endchar = endchar
+        self.endString = endString
         # Til serial i linux benyttes portene /dev/ttyUSB0
         # "/dev/ttyUSB0"
         # self.s = serial.Serial()
@@ -32,7 +32,7 @@ class ADC220(serial.Serial):
 
     def send(self, msg):
         print(type(msg))
-        msg = msg + self.endchar
+        msg = msg + self.endString
         msg = msg.encode("utf-8")
         print(type(msg))
         print(msg)
@@ -42,9 +42,11 @@ class ADC220(serial.Serial):
 
     def receive(self) -> bytes:
         # Her sendes Hello World 5 gange
+        endChar = bytes(self.endString, "utf-8")
         print("Ready 2 read")
+        print("Endchar: " + str(endChar))
         # Læser 5 bytes
-        r = self.read_until()
+        r = self.read_until(expected=endChar)
         print(type(r))
         print(r)
         b = r.decode("utf-8")
