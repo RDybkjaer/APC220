@@ -19,7 +19,7 @@ class ADC220(serial.Serial):
         # Godt nok er parity som standard sat til N, men for god ordens skyld
         self.parity = "N"
         # Her sættes en timeout for, da jeg havde problemer med at den læste for evigt
-        self.baudrate = 9600
+        self.baudrate = 19200
         # Disabler CTS/RTS flow control, da det ikke er nødvendigt
         self.rtscts = False
 
@@ -57,15 +57,12 @@ class ADC220(serial.Serial):
 
     def receive(self, to=timeout) -> bytes:
         # Enkoder endString til byte
-        # endChar = bytes(self.delim, "utf-8")
-        print("Ready 2 read")
-        # print("Endchar: " + str(endChar))
+        endChar = bytes(self.delim, "utf-8")
         # Læser indtil endChar er fundet
-        r = self.read_until()  # expected=endChar)
-        print(type(r))
-        print(r)
-        b = r.decode("utf-8")
-        b.replace("#!", "")
-        print(type(b))
-        print("Read: " + b)
-        return b
+        b = self.read_until(expected=endChar)
+        # Dekoder det til unicode
+        read = b.decode("utf-8")
+        # fjerner delimiteren fra strengen
+        read.replace("#!", "")
+        print("Read: " + read)
+        return read
