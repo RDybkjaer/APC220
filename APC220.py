@@ -47,7 +47,7 @@ class ADC220(serial.Serial):
         # Sammanesætter msg med delimiteren
         msg = msg + self.delim
         ##Omskriver det til unicode
-        mssendg = msg.encode("utf-8")
+        msg = msg.encode("utf-8")
         print("Message: " + str(msg))
         j = self.write(msg)
         if len(msg) == j:
