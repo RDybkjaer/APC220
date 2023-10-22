@@ -1,8 +1,0 @@
-https://github.com/pyusb/pyusb
-https://github.com/pyusb/pyusb/blob/master/docs/tutorial.rst
-
-https://pyserial.readthedocs.io/en/latest/pyserial.html#overview
-
-
-Listing ports:
-python3 -m serial.tools.list_ports
