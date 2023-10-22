@@ -3,18 +3,16 @@ import serial
 
 class ADC220(serial.Serial):
     endString: str
+    timeout = 10
 
     def __init__(self, endString: str = "!#"):
         super().__init__()
         self.endString = endString
         # Til serial i linux benyttes portene /dev/ttyUSB0
-        # "/dev/ttyUSB0"
-        # self.s = serial.Serial()
         self.port = "/dev/ttyUSB0"
         # Godt nok er parity som standard sat til N, men for god ordens skyld
         self.parity = "N"
         # Her sættes en timeout for, da jeg havde problemer med at den læste for evigt
-        self.timeout = 10
         self.baudrate = 9600
         self.rtscts = False
         # Porten åbnes officielt
@@ -40,12 +38,12 @@ class ADC220(serial.Serial):
         j = self.write(msg)
         print("Has written: " + str(j))
 
-    def receive(self) -> bytes:
+    def receive(self, to=timeout) -> bytes:
         # Her sendes Hello World 5 gange
         endChar = bytes(self.endString, "utf-8")
         print("Ready 2 read")
         print("Endchar: " + str(endChar))
-        # Læser 5 bytes
+        # Læser indtil endChar er fundet
         r = self.read_until(expected=endChar)
         print(type(r))
         print(r)
