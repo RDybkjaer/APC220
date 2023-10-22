@@ -1,8 +1,10 @@
 import serial
+import ADC220
 
 
 
 def main():
+    adc = ADC220.ADC220()
     #Hej og velkommen - koden kører pt, så det er jo nice nok
 
     #Vi starter initialiseringen af en Seriel forbindelse - Her benyttes pySerial biblioteket
