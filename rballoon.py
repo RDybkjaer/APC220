@@ -12,10 +12,11 @@ def main():
         if(""!=res):
             print("Received something!")
             ReS = tospongebob(res)
+            print("CMP: "+ str(res) +" - " +str(ReS))
             radio.transmit(ReS)
         else:
             print("Timed out - Sending telemetry!")
-            radio.transmit("Nothing received!!")
+            radio.transmit("Tel!")
         print("The end!")
     radio.close()
 
