@@ -120,7 +120,7 @@ class ADC220(serial.Serial):
         # Sammanesætter msg med delimiterent
         testahest = 0.55
         print("Type of testahest: " + str(type(testahest)))
-        test = bytes(testahest)
+        test = bytes.
         print("Type of test: " + test)
         msg = self.delim
         ##Omskriver det til unicode

@@ -10,8 +10,8 @@ def main():
     msg = radio.terminalInput(timeout=None)
     # Random matches for testing purposes
     if "TO" != msg:
-        radio.transmit(msg)
-    radio.receive(timeout=20)
+        radio.ttransmit(msg)
+    radio.treceive(timeout=20)
 
 
 if __name__ == "__main__":
