@@ -2,56 +2,19 @@ import serial
 import ADC220
 
 
-
 def main():
     adc = ADC220.ADC220()
-    #Hej og velkommen - koden kører pt, så det er jo nice nok
-
-    #Vi starter initialiseringen af en Seriel forbindelse - Her benyttes pySerial biblioteket
-    ser = serial.Serial()
-    # Til serial i linux benyttes portene /dev/ttyUSB0
-    # "/dev/ttyUSB0"
-    ser.port = "/dev/ttyUSB0"
-    #Godt nok er parity som standard sat til N, men for god ordens skyld
-    ser.parity = "N"
-    #Her sættes en timeout for, da jeg havde problemer med at den læste for evigt
-    ser.timeout = 5
-    ser.baudrate = 9600
-    ser.rtscts = False
-    #Porten åbnes officielt
-    ser.open()
-    print("Serial data: " + str(ser))
-    #Test om porten er åben
-    sio = ser.is_open
-    print("Is open: " + str(sio))
-    #Test om porten kan skrives t
-    swa = ser.writable()
-    print("Is writeable: " + str(swa))
-    #Test om porten kan læses fra
-    sra = ser.readable()
-    print("Is readable: " + str(sra))
-
-    #Her sendes Hello World 5 gange
-    print("Ready 2 read")
-    #Læser 5 bytes
-    r = ser.read_until()
-    print(type(r))
-    print(r)
-    b = r.decode('utf-8')
-    print(type(b))
-    print("Read: " + b)
-    #Henter serial settings og printer
-    sett = ser.get_settings()
-    print(sett)
+    # Hej og velkommen - koden kører pt, så det er jo nice nok
+    adc.receive()
 
     print("The end!")
-    ser.close()
+    adc.close()
 
 
 if __name__ == "__main__":
     main()
 
-#USB bus data:
+# USB bus data:
 # Bus 001 Device 006: ID 10c4:ea60 Silicon Labs CP210x UART Bridge
 
 """
