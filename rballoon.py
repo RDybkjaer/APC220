@@ -1,8 +1,10 @@
 import APC220 as apc220
-from spongebobcase import tospongebob
 
 
 def main():
+    res:str
+    ReS:str
+
     radio = apc220.ADC220()
     print("Waiting for sync message!")
     radio.receive(timeout=None)
@@ -10,13 +12,12 @@ def main():
     while(1):
         res = radio.receive(timeout = 10)
         if(""!=res):
-            print("Received something!")
-            ReS = tospongebob(res)
-            print("CMP: "+ str(res) +" - " +str(ReS))
+            print("Received: "+str(res))
+            ReS = res.capitalize()
             radio.transmit(ReS)
         else:
             print("Timed out - Sending telemetry!")
-            radio.transmit("Tel!")
+            radio.transmit("telemetry")
         print("The end!")
     radio.close()
 
