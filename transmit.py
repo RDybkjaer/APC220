@@ -1,4 +1,4 @@
-import ADC220 as adc
+import APC220 as adc
 
 
 def main():
