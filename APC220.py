@@ -5,9 +5,9 @@ import serial
 
 class ADC220(serial.Serial):
     delim: str
-    defaulttimeout: int = 10
+    defaulttimeout: int
 
-    def __init__(self, delim: str = "#!"):
+    def __init__(self, delim: str = "#!", defaulttimeout: int = 10):
         # Opsætter delimimiter, som er det/de tegn der skal læses til, før en læsning stoppes
         self.delim = delim
 
@@ -22,7 +22,8 @@ class ADC220(serial.Serial):
         self.baudrate = 19200
         # Disabler CTS/RTS flow control, da det ikke er nødvendigt
         self.rtscts = False
-        self.write_timeout = self.defaulttimeout
+        self.defaulttimeout = defaulttimeout
+        self.timeout = defaulttimeout
 
         # Porten åbnes officielt
         self.open()
@@ -56,11 +57,11 @@ class ADC220(serial.Serial):
         else:
             print("Message not sent")
 
-    def receive(self, to=-1) -> bytes:
-        if -1 == to:
-            self.write_timeout = self.defaulttimeout
+    def receive(self, timeout=-1) -> bytes:
+        if -1 == timeout:
+            self.timeout = self.defaulttimeout
         else:
-            self.write_timeout = to
+            self.timeout = timeout
         # Enkoder endString til byte
         endChar = bytes(self.delim, "utf-8")
         # Læser indtil endChar er fundet
