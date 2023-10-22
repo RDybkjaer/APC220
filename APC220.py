@@ -43,11 +43,11 @@ class ADC220(serial.Serial):
         conf = self.get_settings()
         print("Settings: " + str(conf))
 
-    def send(self, msg):
+    def transmit(self, msg):
         # Sammanesætter msg med delimiteren
         msg = msg + self.delim
         ##Omskriver det til unicode
-        msg = msg.encode("utf-8")
+        mssendg = msg.encode("utf-8")
         print("Message: " + str(msg))
         j = self.write(msg)
         if len(msg) == j:
@@ -66,3 +66,15 @@ class ADC220(serial.Serial):
         read.replace("#!", "")
         print("Read: " + read)
         return read
+
+    def terminalInput(self):
+        # NOTE: Denne metode er kun til test - Den er noget garbage
+        # @BRIEF: Terminal input
+        print("Tell me what U want, what U really really want to send")
+        inp = input()
+        print(
+            "You wanna, you wanna, you wanna, you wanna, you wanna really really really wanna "
+            + inp
+        )
+        print(type(inp))
+        return inp
