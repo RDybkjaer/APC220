@@ -75,7 +75,7 @@ class ADC220(serial.Serial):
         print("\tRead: " + read)
         return read
 
-    def terminalInput(self):
+    def terminalInput(self, timeout: int = 9):
         # NOTE: input() fungerer fint, men jeg vil gerne have en timeout på den
         #      så vi kan receive telemetry fra tid til anden
 
@@ -84,7 +84,7 @@ class ADC220(serial.Serial):
         # and handle errors
         try:
             # Take timed input using inputimeout() function
-            time_over = inputimeout(prompt="Choose a function:", timeout=9)
+            time_over = inputimeout(prompt="Choose a function:", timeout=timeout)
 
         # Catch the timeout error
         except Exception:
