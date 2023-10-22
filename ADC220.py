@@ -5,7 +5,7 @@ class ADC220(serial.Serial):
     endString: str
     timeout = 10
 
-    def __init__(self, endString: str = "!#"):
+    def __init__(self, endString: str = "#!"):
         super().__init__()
         self.endString = endString
         # Til serial i linux benyttes portene /dev/ttyUSB0
@@ -48,6 +48,7 @@ class ADC220(serial.Serial):
         print(type(r))
         print(r)
         b = r.decode("utf-8")
+        b.replace("#!", "")
         print(type(b))
         print("Read: " + b)
         return b
