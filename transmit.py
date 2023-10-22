@@ -2,12 +2,34 @@ import APC220 as apc220
 
 
 def main():
-    print("Bonjour world")
-    # Vi starter initialiseringen af en Seriel forbindelse - Her benyttes pySerial biblioteket
+    # BUG: Det virker som om at den sender to gange - det forstår jeg ikke helt endnu
+    print("|START|")
+    msg: str
+    # Opretter in instans af ADC220 klassen
     radio = apc220.ADC220()
-    msg = radio.terminalInput()
-    radio.transmit(msg)
-    radio.receive()
+    radio.transmit("Syncword")
+    # Henter et input fra terminalen
+    while 1:
+        msg = None
+        input = radio.terminalInput()
+        # Random matches for testing purposes
+        match input:
+            case "1":
+                msg = "Gutentag welt"
+            case "2":
+                msg = "Bonjour World"
+            case "3":
+                msg = "Hej Verden"
+            case "TO":
+                msg = None
+            case _:
+                msg = "Hello world"
+        # Wrong input
+        if None != msg:
+            print("\tNot timed out!")
+            radio.transmit(msg)
+        # Venter på feedback
+        radio.receive(timeout=3)
 
 
 if __name__ == "__main__":

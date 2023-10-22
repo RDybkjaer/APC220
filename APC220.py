@@ -1,6 +1,8 @@
 import serial
+import sys, select
 
-# @TODO: Skriv kommentarer :P
+# Import the libraries inputimeout, TimeoutOccurred
+from inputimeout import inputimeout
 
 
 class ADC220(serial.Serial):
@@ -50,14 +52,14 @@ class ADC220(serial.Serial):
         msg = msg + self.delim
         ##Omskriver det til unicode
         msg = msg.encode("utf-8")
-        print("Message: " + str(msg))
         j = self.write(msg)
         if len(msg) == j:
-            print("Message sent")
+            print("\tMessage sent: " + str(msg))
         else:
-            print("Message not sent")
+            print("\tMessage not sent")
 
     def receive(self, timeout=-1) -> bytes:
+        # Sætter en costum timeout
         if -1 == timeout:
             self.timeout = self.defaulttimeout
         else:
@@ -70,11 +72,25 @@ class ADC220(serial.Serial):
         read = b.decode("utf-8")
         # fjerner delimiteren fra strengen
         read.replace("#!", "")
-        print("Read: " + read)
+        print("\tRead: " + read)
         return read
 
     def terminalInput(self):
-        # NOTE: Denne metode er kun til test - Den er noget garbage
-        print("Select function")
-        inp = input()
-        return inp
+        # NOTE: input() fungerer fint, men jeg vil gerne have en timeout på den
+        #      så vi kan receive telemetry fra tid til anden
+
+        # Tyv stjålet fra https://www.geeksforgeeks.org/how-to-set-an-input-time-limit-in-python/
+        # Try block of code
+        # and handle errors
+        try:
+            # Take timed input using inputimeout() function
+            time_over = inputimeout(prompt="Choose a function:", timeout=9)
+
+        # Catch the timeout error
+        except Exception:
+            # Declare the timeout statement
+            time_over = "TO"
+
+        # Print the statement on timeoutprint(time_over)
+        print(time_over)
+        return time_over
