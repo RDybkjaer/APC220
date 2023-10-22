@@ -123,11 +123,11 @@ class ADC220(serial.Serial):
         testahest = 0.55
         print("Type of testahest: " + str(type(testahest)))
         # test = bytes.
-        print("Type of test: " + test)
+        # print("Type of test: " + test)
         msg = self.delim
         ##Omskriver det til unicode
         msg = msg.encode("utf-8")
-        msg = test + msg
+        # msg = test + msg
         j = self.write(msg)
         if len(msg) == j:
             print("\tMessage sent: " + str(msg))
