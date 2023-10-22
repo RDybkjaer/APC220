@@ -3,7 +3,7 @@
 - [x] basic setup
 - [x] basic send
 - [x] basic receive
-- [ ] basic class for setup, send and receive
+- [x] basic class for setup, send and receive
 
 
 ### Receiver
@@ -12,3 +12,4 @@
 
 ### Transmitter
 - [ ] terminal input
+- [ ] Setup more variable  types

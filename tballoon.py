@@ -25,7 +25,8 @@ def main():
                 msg = None
             case _:
                 msg = "Hello world"
-        # Wrong input
+        #Kigger efter timeout:
+        #Hvis ikke timeout, send data - Ellers bare lyt :D
         if None != msg:
             print("\tNot timed out!")
             radio.transmit(msg)
