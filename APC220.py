@@ -11,7 +11,7 @@ class ADC220(serial.Serial):
     callsign: str
 
     def __init__(
-        self, delim: str = "#!", defaulttimeout: int = 10, callsign: str = "ABCDEF"
+        self, delim: str = "\n", defaulttimeout: int = 10, callsign: str = "ABCDEF"
     ):
         # Opsætter delimimiter, som er det/de tegn der skal læses til, før en læsning stoppes
         self.delim = delim

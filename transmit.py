@@ -8,12 +8,12 @@ def main():
     radio = apc220.ADC220()
     # Henter et input fra terminalen
     msg = radio.terminalInput(timeout=None)
-    
-    #Hvis TO er input timed out :)
+
+    # Hvis TO er input timed out :)
     if "TO" != msg:
-        #Hvis ikke timed out, sender den msg
+        # Hvis ikke timed out, sender den msg
         radio.transmit(msg)
-    #Kigger efter respons
+    # Kigger efter respons
     radio.receive(timeout=20)
 
 

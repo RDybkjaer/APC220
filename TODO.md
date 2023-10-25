@@ -5,11 +5,11 @@
 - [x] basic receive
 - [x] basic class for setup, send and receive
 
-
 ### Receiver
+
 - [ ] receiver command based on receive
 
-
 ### Transmitter
+
 - [ ] terminal input
-- [ ] Setup more variable  types
+- [ ] Setup more variable types

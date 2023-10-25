@@ -25,13 +25,13 @@ def main():
                 msg = None
             case _:
                 msg = "Hello world"
-        #Kigger efter timeout:
-        #Hvis ikke timeout, send data - Ellers bare lyt :D
+        # Kigger efter timeout:
+        # Hvis ikke timeout, send data - Ellers bare lyt :D
         if None != msg:
             print("\tNot timed out!")
             radio.transmit(msg)
         # Venter på feedback
-        radio.receive(timeout=3)
+        radio.receive(timeout=2)
 
 
 if __name__ == "__main__":
