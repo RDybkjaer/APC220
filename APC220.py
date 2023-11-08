@@ -11,7 +11,7 @@ class ADC220(serial.Serial):
     callsign: str
 
     def __init__(
-        self, delim: str = "#!", defaulttimeout: int = 10, callsign: str = "ABCDEF"
+        self, delim: str = "#!", defaulttimeout: int = 10, callsign: str = "000000"
     ):
         # Opsætter delimimiter, som er det/de tegn der skal læses til, før en læsning stoppes
         self.delim = delim
@@ -53,7 +53,7 @@ class ADC220(serial.Serial):
 
     def transmit(self, msg):
         # Sammanesætter msg med delimiteren
-        msg = msg + self.delim
+        msg = self.callsign + msg + self.delim
         ##Omskriver det til unicode
         msg = msg.encode("utf-8")
         j = self.write(msg)
@@ -69,13 +69,15 @@ class ADC220(serial.Serial):
         else:
             self.timeout = timeout
         # Enkoder endString til byte
-        endChar = bytes(self.delim, "utf-8")
+        # endChar = bytes(self.delim, "utf-8")
+        # startChar = bytes(self.callsign, "utf-8")
         # Læser indtil endChar er fundet
         b = self.read_until(expected=endChar)
         # Dekoder det til unicode
         read = b.decode("utf-8")
         # fjerner delimiteren fra strengen
-        read = read.removesuffix("#!")
+        read = read.removeprefix(self.callsign)
+        read = read.removesuffix(self.delim)
         print("\tRead: " + read)
         return read
 

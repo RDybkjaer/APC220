@@ -38,3 +38,7 @@ Giver "unknown parameter: Expected"
 
     3:
     Inputimeout modulet kunne jeg ikke hente til rpi
+
+
+
+Istedet for at basere på tid, basere på request??
