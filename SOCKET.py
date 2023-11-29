@@ -1,10 +1,17 @@
+#!/usr/bin/env python3
 import socket
 
 
 class sock(socket.socket):
-    def __init__(self, HOST, PORT):
+    isServer: bool
+
+    def __init__(self, HOST, PORT, isServer: bool = False):
         super().__init__(socket.AF_INET, socket.SOCK_STREAM)
-        self.connect((HOST, PORT))
+        self.isServer = isServer
+        if isServer:
+            self.bind((HOST, PORT))
+        else:
+            self.connect((HOST, PORT))
 
     def sendBytes(self, toSend: bytes):
         sl = len(toSend)
@@ -21,3 +28,17 @@ class sock(socket.socket):
         print("\t\t Received size: " + str(rescsize))
         data = self.recv(rescsize)
         return data
+
+    def lyt(self) -> socket.socket:
+        # TODO: Kald den et bedre navn
+        # TODO: Smid en exception hvis det ikke er en server
+        self.listen()
+        # Accept connection - Conn is the socket for the connection, addr is the address of the other end
+
+        conn, addr = self.accept()
+        if conn:
+            print("Connected by " + str(addr))
+            return conn
+        else:
+            print("No connection")
+            return None
