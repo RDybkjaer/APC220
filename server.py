@@ -9,20 +9,25 @@ def main():
 
     # Binds address?
     sockit.bind((addr))
-    while 1:
+    while True:
         # Wait for someone to ask to connect - listen
-        sockit.listen(1)
+        sockit.listen()
         # Accept connection - Conn is the socket for the connection, addr is the address of the other end
         conn, addr = sockit.accept()
         # Using conn
+        print(f"Connected by {addr}")
         with conn:
-            print(f"Connected by {addr}")
             while True:
-                rescsize = 1024
+                bl = conn.recv(2)
+                rescsize = int.from_bytes(bl, "little")
+                print(rescsize)
                 data = conn.recv(rescsize)
                 if data:
                     print(data)
-                    conn.close()
+                    conn.sendall(rescsize.to_bytes(2, "little"))
+                    conn.sendall(data)
+                if not data:
+                    break
 
 
 if __name__ == "__main__":
